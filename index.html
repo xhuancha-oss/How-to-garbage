@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Recycle Rush 3D</title>
+
+    <!-- =====================================================
+         LOCAL THREE.JS DEPENDENCIES
+
+         Keep these files inside the project so the game does
+         not depend on a CDN or an internet connection.
+         ===================================================== -->
+
+    <script>
+      window.gameDependencyErrors = [];
+    </script>
+    <script
+      src="./three-r128/three.min.js"
+      onerror="
+        window.gameDependencyErrors.push('vendor/three-r128/three.min.js')
+      "
+    ></script>
+    <script
+      src="./three-r128/PointerLockControls.js"
+      onerror="
+        window.gameDependencyErrors.push(
+          'vendor/three-r128/PointerLockControls.js',
+        )
+      "
+    ></script>
+
+    <link rel="stylesheet" href="./css/game.css" />
+  </head>
+
+  <body>
+    <!-- =========================================================
+     HUD
+     ========================================================= -->
+
+    <div id="hud">
+      <div class="hud-item">
+        HP:
+
+        <span id="health"> ♥♥♥♥♥ </span>
+      </div>
+
+      <div class="hud-item">
+        SCORE:
+
+        <span id="score"> 0 </span>
+      </div>
+
+      <div class="hud-item">
+        WASTE:
+
+        <span id="waste-count"> 0 </span>
+      </div>
+
+      <div class="hud-item">
+        TIME:
+
+        <span id="timer"> 10.0 </span>s
+      </div>
+    </div>
+
+    <div id="combo-hud">
+      <span id="combo-icon">⚡</span>
+
+      COMBO ×<span id="combo-count">0</span>
+    </div>
+
+    <!-- =========================================================
+     CROSSHAIR
+     ========================================================= -->
+
+    <div id="crosshair"></div>
+
+    <div id="interaction"></div>
+
+    <div id="message"></div>
+
+    <!-- =========================================================
+     HELP
+     ========================================================= -->
+
+    <div id="help">
+      W A S D = MOVE<br />
+
+      MOUSE = LOOK<br />
+
+      LEFT MOUSE = PICK UP / HOLD TO CHARGE, RELEASE TO THROW<br />
+
+      WHITE ARC = THROW PATH<br />
+
+      SPACE = JUMP<br />
+
+      RIGHT MOUSE = INSPECT HELD WASTE<br />
+
+      ESC = PAUSE
+    </div>
+
+    <!-- =========================================================
+     ERROR
+     ========================================================= -->
+
+    <div id="error">THREE.JS FAILED TO LOAD</div>
+
+    <!-- =========================================================
+     START
+     ========================================================= -->
+
+    <div id="start-screen" class="overlay">
+      <div class="window">
+        <h1>RECYCLE RUSH 3D</h1>
+
+        <p>PIXEL GREEN FACTORY</p>
+
+        <div class="controls">
+          <p>
+            <strong> W A S D </strong>
+
+            — Move
+          </p>
+
+          <p>
+            <strong> MOUSE </strong>
+
+            — Look Around
+          </p>
+
+          <p>
+            <strong> LEFT MOUSE </strong>
+
+            — Pick Up Waste
+          </p>
+
+          <p>
+            <strong> HOLD LEFT MOUSE </strong>
+
+            — Charge, Release to Throw
+          </p>
+
+          <p>White Arc = Throw Path</p>
+
+          <p>
+            <strong> SPACE </strong>
+
+            — Jump
+          </p>
+
+          <p>
+            <strong> RIGHT MOUSE </strong>
+
+            — Inspect Held Waste
+          </p>
+
+          <p>Correct Bin = +10 Score</p>
+
+          <p>Wrong Bin = -1 HP</p>
+
+          <p>Timeout = -1 HP</p>
+        </div>
+
+        <button id="start-button">START GAME</button>
+      </div>
+    </div>
+
+    <!-- =========================================================
+     GAME OVER
+     ========================================================= -->
+
+    <div id="game-over-screen" class="overlay">
+      <div class="window">
+        <h2>GAME OVER</h2>
+
+        <p>
+          FINAL SCORE:
+
+          <strong id="final-score"> 0 </strong>
+        </p>
+
+        <p>
+          WASTE PROCESSED:
+
+          <strong id="final-count"> 0 </strong>
+        </p>
+
+        <button id="restart-button">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <!-- =========================================================
+     PAUSE
+     ========================================================= -->
+
+    <div id="pause-screen">CLICK TO CONTINUE</div>
+
+    <script src="./js/core.js"></script>
+    <script src="./js/world.js"></script>
+    <script src="./js/garbage.js"></script>
+    <script src="./js/state.js"></script>
+    <script src="./js/interaction.js"></script>
+    <script src="./js/game.js"></script>
+    <script src="./js/error-handler.js"></script>
+  </body>
+</html>

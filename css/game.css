@@ -1,0 +1,433 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #111;
+
+  font-family: "Courier New", monospace;
+
+  user-select: none;
+}
+
+canvas {
+  display: block;
+}
+
+/* =====================================================
+     HUD
+     ===================================================== */
+
+#hud {
+  position: fixed;
+
+  top: 18px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  gap: 24px;
+
+  padding: 12px 22px;
+
+  background: rgba(15, 24, 29, 0.92);
+
+  border: 4px solid #101010;
+
+  box-shadow:
+    inset 0 0 0 3px #56666e,
+    5px 5px 0 rgba(0, 0, 0, 0.45);
+
+  color: white;
+
+  font-weight: bold;
+
+  z-index: 10;
+
+  pointer-events: none;
+}
+
+.hud-item {
+  white-space: nowrap;
+}
+
+#health {
+  color: #ff5b5b;
+}
+
+#score {
+  color: #ffe45e;
+}
+
+#timer {
+  color: #68e1ff;
+}
+
+#waste-count {
+  color: #7cff74;
+}
+
+#combo-hud {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  z-index: 10;
+  pointer-events: none;
+  padding: 10px 16px;
+  color: #ffffff;
+  background: rgba(15, 24, 29, 0.92);
+  border: 4px solid #101010;
+  box-shadow:
+    inset 0 0 0 3px #56666e,
+    5px 5px 0 rgba(0, 0, 0, 0.45);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#combo-icon {
+  display: inline-block;
+  margin-right: 7px;
+  color: #ffb52e;
+  font-size: 22px;
+  text-shadow: 2px 2px 0 #8d321f;
+}
+
+#combo-count {
+  color: #ffe45e;
+  font-size: 20px;
+}
+
+#combo-hud.combo-pop {
+  animation: combo-pop 0.24s steps(2, end);
+}
+
+@keyframes combo-pop {
+  50% {
+    transform: scale(1.16) rotate(-2deg);
+  }
+}
+
+/* =====================================================
+     CROSSHAIR
+     ===================================================== */
+
+#crosshair {
+  position: fixed;
+
+  left: 50%;
+  top: 50%;
+
+  width: 24px;
+  height: 24px;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 20;
+
+  pointer-events: none;
+}
+
+#crosshair::before,
+#crosshair::after {
+  content: "";
+
+  position: absolute;
+
+  background: white;
+
+  box-shadow: 2px 2px 0 black;
+}
+
+#crosshair::before {
+  width: 20px;
+  height: 2px;
+
+  left: 2px;
+  top: 11px;
+}
+
+#crosshair::after {
+  width: 2px;
+  height: 20px;
+
+  left: 11px;
+  top: 2px;
+}
+
+/* =====================================================
+     INTERACTION HINT
+     ===================================================== */
+
+#interaction {
+  position: fixed;
+
+  left: 50%;
+
+  top: calc(50% + 45px);
+
+  transform: translateX(-50%);
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  text-shadow: 2px 2px 0 black;
+
+  z-index: 20;
+
+  pointer-events: none;
+}
+
+/* =====================================================
+     MESSAGE
+     ===================================================== */
+
+#message {
+  position: fixed;
+
+  left: 50%;
+  bottom: 80px;
+
+  transform: translateX(-50%);
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  color: white;
+
+  text-shadow: 3px 3px 0 #000;
+
+  z-index: 30;
+
+  pointer-events: none;
+}
+
+.good {
+  color: #72ff76 !important;
+}
+
+.bad {
+  color: #ff6868 !important;
+}
+
+/* =====================================================
+     OVERLAY
+     ===================================================== */
+
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(6, 12, 15, 0.95);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 100;
+}
+
+.window {
+  width: min(620px, 90vw);
+
+  padding: 36px;
+
+  background: #26343c;
+
+  border: 7px solid #0b0f11;
+
+  box-shadow:
+    inset 0 0 0 5px #647982,
+    12px 12px 0 #050708;
+
+  color: white;
+
+  text-align: center;
+}
+
+.window h1,
+.window h2 {
+  color: #78e56d;
+
+  letter-spacing: 3px;
+}
+
+.window h1 {
+  margin-top: 0;
+
+  font-size: 38px;
+}
+
+.window h2 {
+  font-size: 34px;
+}
+
+.window p {
+  line-height: 1.6;
+}
+
+/* =====================================================
+     CONTROLS PANEL
+     ===================================================== */
+
+.controls {
+  margin: 25px auto;
+
+  text-align: left;
+
+  max-width: 420px;
+
+  border: 3px solid #53666e;
+
+  padding: 18px;
+
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* =====================================================
+     BUTTON
+     ===================================================== */
+
+button {
+  font-family: "Courier New", monospace;
+
+  font-weight: bold;
+
+  font-size: 18px;
+
+  padding: 14px 30px;
+
+  color: white;
+
+  background: #4faf48;
+
+  border: 5px solid #101710;
+
+  box-shadow: 6px 6px 0 #070b07;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: #66cd5d;
+}
+
+button:active {
+  transform: translate(4px, 4px);
+
+  box-shadow: 2px 2px 0 #070b07;
+}
+
+/* =====================================================
+     GAME OVER
+     ===================================================== */
+
+#game-over-screen {
+  display: none;
+}
+
+/* =====================================================
+     PAUSE
+     ===================================================== */
+
+#pause-screen {
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  color: white;
+
+  background: rgba(0, 0, 0, 0.68);
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  z-index: 60;
+
+  cursor: pointer;
+}
+
+#pause-screen small {
+  margin-top: 15px;
+
+  font-size: 14px;
+
+  color: #ccc;
+}
+
+/* =====================================================
+     HELP
+     ===================================================== */
+
+#help {
+  position: fixed;
+
+  right: 16px;
+  bottom: 16px;
+
+  background: rgba(15, 23, 27, 0.88);
+
+  border: 3px solid #596970;
+
+  padding: 10px 14px;
+
+  color: #ddd;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+  z-index: 15;
+
+  pointer-events: none;
+}
+
+/* =====================================================
+     LOADING ERROR
+     ===================================================== */
+
+#error {
+  position: fixed;
+
+  left: 50%;
+  top: 20px;
+
+  transform: translateX(-50%);
+
+  padding: 12px 18px;
+
+  background: #a52f2f;
+
+  color: white;
+
+  display: none;
+
+  z-index: 9999;
+
+  font-weight: bold;
+}
